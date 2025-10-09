@@ -1,0 +1,288 @@
+body {
+  font-family: "MS Mincho", "ヒラギノ明朝 ProN", "serif";
+  background-color: #f0f0f0;
+  padding: 0px;
+  margin: 5px 20px 0px 20px; /* 左右や上だけ余白を残したい場合 */
+}
+
+/* ページ上部を左右分割 */
+#top-container {
+  display: flex;
+  justify-content: space-between; /* 左右に分ける */
+  align-items: flex-start;        /* 上端揃え */
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+/* 左パネル：タイトル＋色選択 */
+#left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ヘッダー行（旧header-rowのスタイルを維持） */
+#header-row {
+  display: flex;
+  align-items: flex-start; /* 上端で揃える */
+  justify-content: center; /* ページ全体の横基準 */
+  width: 100%;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#page-title {
+  margin: 0 0 10px 0;  /* 下余白で色選択メニューと間隔を確保 */
+  font-size: 28px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* ボタン群コンテナ */
+#controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 0;
+  padding-top: 0;
+  width: 100%;
+  position: relative;
+}
+
+/* ▼ プルダウン形式の色選択メニュー */
+#color-selection {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 左揃えに変更 */
+  gap: 8px;
+}
+
+#color-selection label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#color-selection select {
+  font-size: 16px;
+  padding: 6px 10px;
+  border: 2px solid #555;
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+  width: 160px;
+  text-align: center;
+}
+
+#color-selection select:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* 中央パネル：操作ボタンを中央上部に配置 */
+#center-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 上端に寄せる */
+  flex: 1; /* 左右空間を均等にして中央寄せの基準に */
+  margin-top: 0px; /* タイトル行に合わせて上余白を調整 */
+  padding: 0;
+}
+
+/* 操作ボタン群 */
+#quiz-controls {
+  display: flex !important;     /* 強制表示 */
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 0; /* 上余白を削除して上端に寄せる */
+  margin-bottom: 0px; /* ← ここで微調整。2〜4pxが目安 */
+  padding: 0;
+  line-height: normal;
+  position: relative;
+  z-index: 10;
+  transform: translateX(-4cm); /* 左に3センチずらす */
+}
+
+#quiz-controls button {
+  padding: 2px 16px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1.5px solid #555;
+  background-color: #f8f8f8;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+#quiz-controls button:active {
+  transform: scale(0.96);
+}
+
+/* 「読み上げを開始」ボタンを強調 */
+#quiz-controls button.primary {
+  background-color: #333333;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* カード表示エリア */
+#card-area {
+  display: grid;
+  grid-template-columns: repeat(5, 120px);
+  grid-auto-rows: 200px;
+  gap: 1mm;
+  justify-content: center;
+  margin-top: 0px;
+  padding-top: 0;
+  transform: translateY(-4px);
+}
+
+/* 個々のカード */
+.card {
+  width: 120px;
+  height: 198px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: "MS Mincho", "ヒラギノ明朝 ProN", "serif";
+  font-size: 25px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 5px 5px 1px 1px;
+  box-sizing: border-box;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4em;
+  margin-top: 17px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.card-text span {
+  display: block;
+  margin: 0;
+  letter-spacing: 0.09em;
+}
+
+.card.selected {
+  outline: 3px solid red;
+  box-shadow: 0 0 10px rgba(255,0,0,0.7);
+}
+
+.card.reversed {
+  transform: rotate(180deg);
+}
+
+.result-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5em;
+  color: red;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* 暗記タイマー（右上） */
+#memorize-timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 150px;
+  background: #ffffff;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.25);
+  z-index: 1000;
+  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif; /* ← これを追加 */
+  display: none;
+}
+
+#timer-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+#timer-display {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#timer-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+#timer-buttons button {
+  flex: 1;
+  min-width: 60px;
+  padding: 6px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#replay-btn {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 右下の音声クレジット表示 */
+#voice-credit {
+  position: fixed;
+  bottom: 8px;
+  right: 10px;
+  font-size: 16px;
+  color: #444;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  user-select: none;
+  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif; /* ← これを追加 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

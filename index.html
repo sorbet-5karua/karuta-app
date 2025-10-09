@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>五色百人一首 練習ツール</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 左上にタイトル＋色選択、中央上部に操作ボタン -->
+  <div id="top-container">
+    <!-- 左パネル：タイトルと色選択 -->
+    <div id="left-panel">
+      <h1 id="page-title">五色百人一首 練習ツール</h1>
+      <div id="color-selection">
+        <label for="color-select">色を選ぶ：</label>
+        <select id="color-select">
+          <option value="">選んでください</option>
+          <option value="lightcyan">青</option>
+          <option value="mistyrose">ピンク</option>
+          <option value="lightyellow">黄</option>
+          <option value="palegoldenrod">緑</option>
+          <option value="moccasin">オレンジ</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 中央パネル：操作ボタン -->
+    <div id="center-panel">
+      <div id="quiz-controls" style="display:none; margin:5px 0;">
+        <button id="start-quiz" class="primary">読み上げを開始</button>
+        <button id="stop-quiz">一時停止</button>
+        <button id="replay-button" hidden style="margin-left:32px;">同じ色でもう一度プレイ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- カード表示エリア -->
+  <div id="card-area"></div>
+
+  <!-- 暗記タイマー（右上） -->
+  <div id="memorize-timer" aria-label="暗記１分タイマー">
+    <div id="timer-title">暗記１分タイマー</div>
+    <div id="timer-display">01:00</div>
+    <div id="timer-buttons">
+      <button id="timer-start-stop">スタート</button>
+      <button id="timer-reset">リセット</button>
+    </div>
+  </div>
+
+  <script src="papaparse.min.js"></script>
+  <script src="script.js"></script>
+
+  <!-- 右下に固定表示するクレジット -->
+<div id="voice-credit">音声：VOICEVOX:玄野武宏</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
