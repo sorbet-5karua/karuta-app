@@ -23,19 +23,6 @@ let timerRunning = false;
 const alarmAudio = new Audio("audio/alarm.mp3"); // アラーム音（00:00時に鳴る）
 
 document.addEventListener("DOMContentLoaded", () => {
-  const unlockBtn = document.getElementById("audio-unlock");
-  if (unlockBtn) {
-    unlockBtn.addEventListener("click", () => {
-      const dummy = new Audio("audio/kurono/yomimasu.mp3");
-      dummy.play().then(() => {
-        console.log("Audio permission granted by user.");
-        unlockBtn.style.display = "none";
-      }).catch(err => {
-        console.warn("Audio unlock failed:", err);
-      });
-    });
-  }
-
     console.log("DOMContentLoaded: start parsing CSV...");
   // CSV 読み込み（papaparse）完了時にセッティング
   Papa.parse("cards.csv", {
