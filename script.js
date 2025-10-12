@@ -15,6 +15,7 @@ let firstStart = false;
 let isStopped = false;
 let processedIds = new Set();
 let questionAnswered = false;
+let currentVoice = "kurono"; // 追加：デフォルトの声フォルダ
 
 // 暗記タイマー用
 let memorizeTimer = 60;
@@ -23,7 +24,20 @@ let timerRunning = false;
 const alarmAudio = new Audio("audio/alarm.mp3"); // アラーム音（00:00時に鳴る）
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded: start parsing CSV...");
+  const unlockBtn = document.getElementById("audio-unlock");
+  if (unlockBtn) {
+    unlockBtn.addEventListener("click", () => {
+      const dummy = new Audio("audio/kurono/yomimasu.mp3");
+      dummy.play().then(() => {
+        console.log("Audio permission granted by user.");
+        unlockBtn.style.display = "none";
+      }).catch(err => {
+        console.warn("Audio unlock failed:", err);
+      });
+    });
+  }
+
+  console.log("DOMContentLoaded: start parsing CSV...");
   // CSV 読み込み（papaparse）完了時にセッティング
   Papa.parse("cards.csv", {
     download: true,
@@ -119,6 +133,7 @@ function setupMemorizeTimer() {
 function setupColorControls(allCards) {
   // 要素参照
   const colorSelect = document.getElementById("color-select"); // プルダウン方式
+  const voiceSelect = document.getElementById("voice-select"); // 追加：声選択ドロップダウン取得
   const colorButtonContainer = document.getElementById("color-selection"); // ボタン群方式（内部に buttons）
   const backButton = document.getElementById("back-button");
   const quizControls = document.getElementById("quiz-controls");
@@ -127,6 +142,23 @@ function setupColorControls(allCards) {
   const replayButton = document.getElementById("replay-button");
   const cardArea = document.getElementById("card-area");
   const timerContainer = document.getElementById("memorize-timer");
+
+  // 声選択がある場合は currentVoice を切り替えられるようにする
+  if (voiceSelect) {
+    voiceSelect.addEventListener("change", () => {
+      const v = voiceSelect.value;
+      if (v) {
+        currentVoice = v;
+        console.log("voice-select change:", currentVoice);
+        // 必要ならば右下クレジット更新などここで行う
+        const credit = document.getElementById("voice-credit");
+        if (credit) {
+          // 例：表示を簡潔に変える（任意）
+          credit.textContent = `音声：${currentVoice}`;
+        }
+      }
+    });
+  }
 
   console.log("setupColorControls: elements", {
     colorSelect: !!colorSelect,
@@ -162,8 +194,14 @@ function setupColorControls(allCards) {
   // 共通：選んだ色でカードを表示する処理（ボタン／select 両方から使う）
   function handleColorChosen(colorValue) {
     if (!colorValue) return;
-    currentColor = colorValue;
-    const selectedCards = allCards.filter(c => c["色"] === currentColor);
+    currentColor = colorValue.toLowerCase();
+    const selectedCards = allCards.filter(c => {
+      const cardColor = (c["色"] || "").toLowerCase();
+      // 先頭に#があれば削除
+      const normalizedCardColor = cardColor.startsWith("#") ? cardColor.slice(1) : cardColor;
+      const normalizedSelectedColor = currentColor.startsWith("#") ? currentColor.slice(1) : currentColor;
+      return normalizedCardColor === normalizedSelectedColor;
+    });
     if (!selectedCards || selectedCards.length === 0) {
       console.warn("選択色に対応する札が見つかりません:", currentColor);
       return;
@@ -265,7 +303,7 @@ function setupColorControls(allCards) {
 
       if (visibleCount === 20 && firstStart) {
         firstStart = false;
-        const startAudioPath = `audio/kurono/yomimasu.mp3`;
+        const startAudioPath = `audio/${currentVoice}/yomimasu.mp3`; // 変更点：currentVoice を使う
         if (currentAudio) { currentAudio.pause(); currentAudio = null; }
         try {
           currentAudio = new Audio(startAudioPath);
@@ -371,7 +409,8 @@ function showCards(cards) {
     div.style.backgroundColor = card["色"];
     div.dataset.id = card.ID;
 
-    div.addEventListener("click", () => {
+    div.addEventListener("click", () => { 
+       
       if (!currentCard || isStopped) return;
       if (processedIds.has(String(card.ID))) return;
       if (questionAnswered) return; // 1問1回答ルール
@@ -433,10 +472,10 @@ function startNextQuestion() {
 
   if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
 
-  const reader = "kurono";
+  // 変更点：reader を廃止し currentVoice を使用
   const colorFolder = currentCard["色"];
   const fileNumber = String(currentCard["ID"]).padStart(3,"0");
-  const audioPath = `audio/${reader}/${colorFolder}/${fileNumber}.mp3`;
+  const audioPath = `audio/${currentVoice}/${colorFolder}/${fileNumber}.mp3`;
   try {
     currentAudio = new Audio(audioPath);
   } catch(e) {
@@ -525,6 +564,7 @@ function shuffleArray(array) {
   }
   return array;
 }
+
 
 
 

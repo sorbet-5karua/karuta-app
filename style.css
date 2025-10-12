@@ -8,19 +8,25 @@ body {
 /* ページ上部を左右分割 */
 #top-container {
   display: flex;
-  justify-content: space-between; /* 左右に分ける */
   align-items: flex-start;        /* 上端揃え */
+  gap: 20px;                      /* 左右の余白だけ確保 */
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 0;               /* 下余白は不要 */
   box-sizing: border-box;
+  height: auto;           /* ← 高さを固定しない */
+  align-self: flex-start; /* ← 念のため */
 }
 
 /* 左パネル：タイトル＋色選択 */
 #left-panel {
+  position: absolute;
+  top: 5;
+  left: 10;
+  width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 8px;
+  z-index: 10;
 }
 
 /* ヘッダー行（旧header-rowのスタイルを維持） */
@@ -88,10 +94,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* 上端に寄せる */
-  flex: 1; /* 左右空間を均等にして中央寄せの基準に */
-  margin-top: 0px; /* タイトル行に合わせて上余白を調整 */
-  padding: 0;
+  justify-content: flex-start;
+  margin-left: 850px; /* 左パネル幅＋余白 */
 }
 
 /* 操作ボタン群 */
@@ -101,7 +105,7 @@ body {
   align-items: center;
   gap: 5px;
   margin: 0; /* 上余白を削除して上端に寄せる */
-  margin-bottom: 0px; /* ← ここで微調整。2〜4pxが目安 */
+  margin-bottom: 0px; 
   padding: 0;
   line-height: normal;
   position: relative;
@@ -138,9 +142,9 @@ body {
   grid-auto-rows: 200px;
   gap: 1mm;
   justify-content: center;
-  margin-top: 0px;
-  padding-top: 0;
-  transform: translateY(-4px);
+  margin-top: 30px; /* ボタン群との隙間を最小化して適切に */
+  padding: 0;
+  transform: none;
 }
 
 /* 個々のカード */
@@ -218,7 +222,7 @@ body {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.25);
   z-index: 1000;
-  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif; /* ← これを追加 */
+  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   display: none;
 }
 
@@ -270,8 +274,40 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   z-index: 100;
   user-select: none;
-  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif; /* ← これを追加 */
+  font-family: "MS Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
 }
+
+/* ▼ 声選択プルダウン（#color-selection と同系デザイン） */
+#voice-selection {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+#voice-selection label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#voice-selection select {
+  font-size: 16px;
+  padding: 6px 10px;
+  border: 2px solid #555;
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+  width: 160px;
+  text-align: center;
+}
+
+#voice-selection select:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+
 
 
 
