@@ -197,10 +197,7 @@ function setupColorControls(allCards) {
     currentColor = colorValue.toLowerCase();
     const selectedCards = allCards.filter(c => {
       const cardColor = (c["色"] || "").toLowerCase();
-      // 先頭に#があれば削除
-      const normalizedCardColor = cardColor.startsWith("#") ? cardColor.slice(1) : cardColor;
-      const normalizedSelectedColor = currentColor.startsWith("#") ? currentColor.slice(1) : currentColor;
-      return normalizedCardColor === normalizedSelectedColor;
+      return cardColor === currentColor;
     });
     if (!selectedCards || selectedCards.length === 0) {
       console.warn("選択色に対応する札が見つかりません:", currentColor);
