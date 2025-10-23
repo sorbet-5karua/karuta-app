@@ -144,26 +144,27 @@ function setupColorControls(allCards) {
   const timerContainer = document.getElementById("memorize-timer");
 
 // デフォルトの音声設定（両方を記載）
-let currentVoice = "kurono"; // 初期値
+let currentVoice = "";
 const credit = document.getElementById("voice-credit");
 if (credit) {
-  credit.textContent = "音声：VOICEVOX：玄野武宏・東北きりたん";
+  credit.textContent = "VOICEVOX：玄野武宏・東北きりたん";
 }
 
 // 声選択がある場合は currentVoice を切り替えられるようにする
 if (voiceSelect) {
   voiceSelect.addEventListener("change", () => {
     const v = voiceSelect.value;
-    if (v) {
-      currentVoice = v;
-      console.log("voice-select change:", currentVoice);
-      const credit = document.getElementById("voice-credit");
-      if (credit) {
-        if (currentVoice === "kurono") {
-          credit.textContent = "VOICEVOX：玄野武宏";
-        } else if (currentVoice === "kiritan") {
-          credit.textContent = "VOICEVOX：東北きりたん";
-        }
+    currentVoice = v;
+    console.log("voice-select change:", currentVoice);
+    const credit = document.getElementById("voice-credit");
+    if (credit) {
+      if (currentVoice === "kurono") {
+        credit.textContent = "VOICEVOX：玄野武宏";
+      } else if (currentVoice === "kiritan") {
+        credit.textContent = "VOICEVOX：東北きりたん";
+      } else {
+        // 「選んでください」状態に戻した場合（空欄）
+        credit.textContent = "VOICEVOX：玄野武宏・東北きりたん";
       }
     }
   });
