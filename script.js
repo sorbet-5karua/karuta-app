@@ -144,7 +144,6 @@ function setupColorControls(allCards) {
   const timerContainer = document.getElementById("memorize-timer");
 
 // デフォルトの音声設定（両方を記載）
-let currentVoice = "";
 const credit = document.getElementById("voice-credit");
 if (credit) {
   credit.textContent = "VOICEVOX：玄野武宏・東北きりたん";
